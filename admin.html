@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - HET IMPEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --royal-purple: #6B46C1;
+            --deep-purple: #4C1D95;
+            --rose-gold: #E8B4B8;
+            --champagne-gold: #F7E6AD;
+            --cream-white: #FEF7E7;
+            --soft-lavender: #F3F0FF;
+            --midnight-navy: #1E1B4B;
+            --pure-white: #ffffff;
+            --elegant-gray: #6B7280;
+            --success-green: #10B981;
+            --warning-orange: #F59E0B;
+            --error-red: #EF4444;
+            --shadow-luxury: 0 25px 50px rgba(107, 70, 193, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream-white);
+            color: var(--midnight-navy);
+            line-height: 1.6;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--royal-purple), var(--deep-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .login-form {
+            background: var(--pure-white);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-luxury);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--deep-purple);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--deep-purple);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--soft-lavender);
+            border-radius: 10px;
+            background: var(--pure-white);
+            color: var(--midnight-navy);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--royal-purple);
+            outline: none;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, var(--royal-purple), var(--deep-purple));
+            color: var(--cream-white);
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(107, 70, 193, 0.3);
+        }
+
+        /* Main Admin Interface */
+        .admin-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .admin-header {
+            background: var(--midnight-navy);
+            color: var(--cream-white);
+            padding: 20px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--rose-gold);
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 30px;
+            margin-left: auto;
+            margin-right: 30px;
+        }
+
+        .nav-tab {
+            background: none;
+            border: none;
+            color: var(--cream-white);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover,
+        .nav-tab.active {
+            background: var(--royal-purple);
+            color: var(--cream-white);
+        }
+
+        .logout-btn {
+            background: var(--error-red);
+            color: var(--pure-white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            padding: 30px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--pure-white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-luxury);
+            text-align: center;
+            border-left: 5px solid var(--royal-purple);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--royal-purple);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--elegant-gray);
+            font-weight: 500;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 30px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--deep-purple);
+            margin-bottom: 30px;
+        }
+
+        /* Add Product Form */
+        .add-product-form {
+            background: var(--pure-white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-luxury);
+            margin-bottom: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--soft-lavender);
+            border-radius: 10px;
+            background: var(--pure-white);
+            color: var(--midnight-navy);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--royal-purple);
+            outline: none;
+        }
+
+        .form-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--royal-purple), var(--deep-purple));
+            color: var(--cream-white);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(107, 70, 193, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--elegant-gray);
+        }
+
+        .btn-danger {
+            background: var(--error-red);
+        }
+
+        /* Tables */
+        .data-table {
+            background: var(--pure-white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-luxury);
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: var(--soft-lavender);
+            color: var(--deep-purple);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--soft-lavender);
+        }
+
+        .table tr:hover {
+            background: var(--cream-white);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-new {
+            background: var(--success-green);
+            color: var(--pure-white);
+        }
+
+        .status-pending {
+            background: var(--warning-orange);
+            color: var(--pure-white);
+        }
+
+        .status-completed {
+            background: var(--elegant-gray);
+            color: var(--pure-white);
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .product-item {
+            background: var(--pure-white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-luxury);
+            transition: all 0.3s ease;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: var(--soft-lavender);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--royal-purple);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-weight: 600;
+            color: var(--deep-purple);
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--royal-purple);
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .admin-nav {
+                gap: 15px;
+                margin-right: 15px;
+            }
+
+            .nav-tab {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .data-table {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <form class="login-form" id="loginForm">
+            <h2 class="login-title">HET IMPEX Admin</h2>
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-input" id="username" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <p style="margin-top: 15px; font-size: 14px; color: var(--elegant-gray);">
+            </p>
+        </form>
+    </div>
+
+    <!-- Admin Container -->
+    <div class="admin-container" id="adminContainer">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="admin-logo">HET IMPEX Admin</div>
+            <nav class="admin-nav">
+                <button class="nav-tab active" onclick="showSection('dashboard')">Dashboard</button>
+                <button class="nav-tab" onclick="showSection('products')">Products</button>
+                <button class="nav-tab" onclick="showSection('orders')">Orders</button>
+                <button class="nav-tab" onclick="showSection('contacts')">Contacts</button>
+                <button class="nav-tab" onclick="showSection('custom-requests')">Custom Requests</button>
+            </nav>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section class="content-section active" id="dashboard">
+            <div class="dashboard">
+                <h1 class="section-title">Dashboard</h1>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalProducts">12</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalOrders">27</div>
+                        <div class="stat-label">Total Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="pendingOrders">5</div>
+                        <div class="stat-label">Pending Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalRevenue">$125,450</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <h3 style="padding: 20px; margin: 0; background: var(--soft-lavender); color: var(--deep-purple);">Recent Orders</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrdersTable">
+                            <!-- Orders will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="content-section" id="products">
+            <div class="dashboard">
+                <h1 class="section-title">Product Management</h1>
+                
+                <div class="add-product-form">
+                    <h3 style="margin-bottom: 20px; color: var(--deep-purple);">Add New Product</h3>
+                    <form id="addProductForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Product Name *</label>
+                                <input type="text" class="form-input" id="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Price *</label>
+                                <input type="number" class="form-input" id="productPrice" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Category *</label>
+                                <select class="form-select" id="productCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="rings">Rings</option>
+                                    <option value="earrings">Earrings</option>
+                                    <option value="necklaces">Necklaces</option>
+                                    <option value="bracelets">Bracelets</option>
+                                    <option value="pendants">Pendants</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Diamond Shape</label>
+                                <select class="form-select" id="productShape">
+                                    <option value="">Select Shape</option>
+                                    <option value="round">Round</option>
+                                    <option value="princess">Princess</option>
+                                    <option value="oval">Oval</option>
+                                    <option value="emerald">Emerald</option>
+                                    <option value="cushion">Cushion</option>
+                                    <option value="marquise">Marquise</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Carat Weight</label>
+                                <input type="number" class="form-input" id="productCarat" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Metal Type</label>
+                                <select class="form-select" id="productMetal">
+                                    <option value="">Select Metal</option>
+                                    <option value="white-gold">White Gold</option>
+                                    <option value="yellow-gold">Yellow Gold</option>
+                                    <option value="rose-gold">Rose Gold</option>
+                                    <option value="platinum">Platinum</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Color Grade</label>
+                                <select class="form-select" id="productColor">
+                                    <option value="">Select Color</option>
+                                    <option value="D">D (Colorless)</option>
+                                    <option value="E">E (Colorless)</option>
+                                    <option value="F">F (Colorless)</option>
+                                    <option value="G">G (Near Colorless)</option>
+                                    <option value="H">H (Near Colorless)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Clarity Grade</label>
+                                <select class="form-select" id="productClarity">
+                                    <option value="">Select Clarity</option>
+                                    <option value="FL">FL (Flawless)</option>
+                                    <option value="IF">IF (Internally Flawless)</option>
+                                    <option value="VVS1">VVS1</option>
+                                    <option value="VVS2">VVS2</option>
+                                    <option value="VS1">VS1</option>
+                                    <option value="VS2">VS2</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Image URL</label>
+                            <input type="url" class="form-input" id="productImage" placeholder="https://example.com/image.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-textarea" id="productDescription" placeholder="Product description..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Add Product</button>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('addProductForm').reset()">Clear</button>
+                    </form>
+                </div>
+
+                <div class="product-grid" id="productGrid">
+                    <!-- Products will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Orders Section -->
+        <section class="content-section" id="orders">
+            <div class="dashboard">
+                <h1 class="section-title">Order Management</h1>
+                <div class="data-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTable">
+                            <!-- Orders will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contacts Section -->
+        <section class="content-section" id="contacts">
+            <div class="dashboard">
+                <h1 class="section-title">Contact Messages</h1>
+                <div class="data-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contactsTable">
+                            <!-- Contacts will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Requests Section -->
+        <section class="content-section" id="custom-requests">
+            <div class="dashboard">
+                <h1 class="section-title">Custom Design Requests</h1>
+                <div class="data-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Jewelry Type</th>
+                                <th>Budget</th>
+                                <th>Timeline</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customRequestsTable">
+                            <!-- Custom requests will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let products = JSON.parse(localStorage.getItem('hetimpex_products') || '[]');
+        let orders = JSON.parse(localStorage.getItem('hetimpex_orders') || '[]');
+        let contacts = JSON.parse(localStorage.getItem('hetimpex_contacts') || '[]');
+        let customRequests = JSON.parse(localStorage.getItem('hetimpex_custom_requests') || '[]');
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple demo authentication
+            if (username === 'admin' && password === 'admin123') {
+                currentUser = { username: 'admin', role: 'admin' };
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminContainer').style.display = 'block';
+                loadDashboard();
+            } else {
+                alert('Invalid credentials.');
+            }
+        });
+
+        // Logout functionality
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('adminContainer').style.display = 'none';
+            document.getElementById('loginForm').reset();
+        }
+
+        // Show section functionality
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Load section data
+            switch(sectionName) {
+                case 'dashboard':
+                    loadDashboard();
+                    break;
+                case 'products':
+                    loadProducts();
+                    break;
+                case 'orders':
+                    loadOrders();
+                    break;
+                case 'contacts':
+                    loadContacts();
+                    break;
+                case 'custom-requests':
+                    loadCustomRequests();
+                    break;
+            }
+        }
+
+        // Load dashboard data
+        function loadDashboard() {
+            // Update stats
+            document.getElementById('totalProducts').textContent = products.length;
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'pending').length;
+            
+            const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+            document.getElementById('totalRevenue').textContent = `$${totalRevenue.toLocaleString()}`;
+            
+            // Load recent orders
+            const recentOrders = orders.slice(-5).reverse();
+            const tbody = document.getElementById('recentOrdersTable');
+            tbody.innerHTML = '';
+            
+            recentOrders.forEach(order => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${order.id || 'N/A'}</td>
+                    <td>${order.customerName || 'N/A'}</td>
+                    <td>${order.items?.[0]?.name || 'N/A'}</td>
+                    <td>$${(order.total || 0).toLocaleString()}</td>
+                    <td><span class="status-badge status-${order.status || 'pending'}">${order.status || 'pending'}</span></td>
+                    <td>${new Date(order.date).toLocaleDateString()}</td>
+                `;
+            });
+            
+            if (recentOrders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--elegant-gray);">No recent orders</td></tr>';
+            }
+        }
+
+        // Add product functionality
+        document.getElementById('addProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newProduct = {
+                id: Date.now(),
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                category: document.getElementById('productCategory').value,
+                shape: document.getElementById('productShape').value,
+                carat: parseFloat(document.getElementById('productCarat').value) || 0,
+                metal: document.getElementById('productMetal').value,
+                color: document.getElementById('productColor').value,
+                clarity: document.getElementById('productClarity').value,
+                image: document.getElementById('productImage').value || 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=400&fit=crop&crop=center',
+                description: document.getElementById('productDescription').value,
+                recommended: false,
+                isNew: true,
+                specs: {
+                    cut: 'Excellent',
+                    fluorescence: 'None',
+                    polish: 'Excellent',
+                    symmetry: 'Excellent'
+                },
+                occasion: 'engagement',
+                recommendationScore: 0,
+                dateAdded: new Date().toISOString()
+            };
+            
+            products.push(newProduct);
+            localStorage.setItem('hetimpex_products', JSON.stringify(products));
+            
+            alert('Product added successfully!');
+            this.reset();
+            loadProducts();
+        });
+
+        // Load products
+        function loadProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product-item';
+                productDiv.innerHTML = `
+                    <div class="product-image">
+                        ${product.image ? `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">` : '💎'}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">${product.name}</div>
+                        <div class="product-price">$${product.price.toLocaleString()}</div>
+                        <p style="font-size: 14px; color: var(--elegant-gray); margin-bottom: 15px;">
+                            ${product.category} • ${product.carat}ct • ${product.shape || 'N/A'}
+                        </p>
+                        <div class="product-actions">
+                            <button class="btn btn-small" onclick="editProduct(${product.id})">Edit</button>
+                            <button class="btn btn-danger btn-small" onclick="deleteProduct(${product.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(productDiv);
+            });
+            
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: var(--elegant-gray); grid-column: 1 / -1;">No products found. Add your first product above.</p>';
+            }
+        }
+
+        // Delete product
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== productId);
+                localStorage.setItem('hetimpex_products', JSON.stringify(products));
+                loadProducts();
+            }
+        }
+
+        // Edit product (simplified for demo)
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const newName = prompt('Enter new product name:', product.name);
+                if (newName) {
+                    product.name = newName;
+                    localStorage.setItem('hetimpex_products', JSON.stringify(products));
+                    loadProducts();
+                }
+            }
+        }
+
+        // Load orders
+        function loadOrders() {
+            const tbody = document.getElementById('ordersTable');
+            tbody.innerHTML = '';
+            
+            orders.forEach(order => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${order.id || 'ORD' + Date.now()}</td>
+                    <td>${order.customerName || 'N/A'}</td>
+                    <td>${order.email || 'N/A'}</td>
+                    <td>${order.items?.length || 0} items</td>
+                    <td>$${(order.total || 0).toLocaleString()}</td>
+                    <td>${order.paymentMethod || 'N/A'}</td>
+                    <td><span class="status-badge status-${order.status || 'pending'}">${order.status || 'pending'}</span></td>
+                    <td>${new Date(order.date).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn btn-small" onclick="viewOrder('${order.id}')">View</button>
+                        <button class="btn btn-danger btn-small" onclick="deleteOrder('${order.id}')">Delete</button>
+                    </td>
+                `;
+            });
+            
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--elegant-gray);">No orders found</td></tr>';
+            }
+        }
+
+        // View order details
+        function viewOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                alert(`Order Details:\n\nCustomer: ${order.customerName}\nEmail: ${order.email}\nTotal: $${order.total}\nStatus: ${order.status}\nDate: ${new Date(order.date).toLocaleDateString()}`);
+            }
+        }
+
+        // Delete order
+        function deleteOrder(orderId) {
+            if (confirm('Are you sure you want to delete this order?')) {
+                orders = orders.filter(o => o.id !== orderId);
+                localStorage.setItem('hetimpex_orders', JSON.stringify(orders));
+                loadOrders();
+            }
+        }
+
+        // Load contacts
+        function loadContacts() {
+            const tbody = document.getElementById('contactsTable');
+            tbody.innerHTML = '';
+            
+            contacts.forEach((contact, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${contact.firstName} ${contact.lastName}</td>
+                    <td>${contact.email}</td>
+                    <td>${contact.subject}</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${contact.message}</td>
+                    <td>${new Date(contact.timestamp).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn btn-small" onclick="viewContact(${index})">View</button>
+                        <button class="btn btn-danger btn-small" onclick="deleteContact(${index})">Delete</button>
+                    </td>
+                `;
+            });
+            
+            if (contacts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--elegant-gray);">No contact messages found</td></tr>';
+            }
+        }
+
+        // View contact details
+        function viewContact(index) {
+            const contact = contacts[index];
+            if (contact) {
+                alert(`Contact Details:\n\nName: ${contact.firstName} ${contact.lastName}\nEmail: ${contact.email}\nSubject: ${contact.subject}\n\nMessage:\n${contact.message}\n\nDate: ${new Date(contact.timestamp).toLocaleDateString()}`);
+            }
+        }
+
+        // Delete contact
+        function deleteContact(index) {
+            if (confirm('Are you sure you want to delete this contact message?')) {
+                contacts.splice(index, 1);
+                localStorage.setItem('hetimpex_contacts', JSON.stringify(contacts));
+                loadContacts();
+            }
+        }
+
+        // Load custom requests
+        function loadCustomRequests() {
+            const tbody = document.getElementById('customRequestsTable');
+            tbody.innerHTML = '';
+            
+            customRequests.forEach((request, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${request.firstName} ${request.lastName}</td>
+                    <td>${request.email}</td>
+                    <td>${request.jewelryType}</td>
+                    <td>${request.budgetRange}</td>
+                    <td>${request.timeline}</td>
+                    <td>${new Date(request.timestamp || Date.now()).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn btn-small" onclick="viewCustomRequest(${index})">View</button>
+                        <button class="btn btn-danger btn-small" onclick="deleteCustomRequest(${index})">Delete</button>
+                    </td>
+                `;
+            });
+            
+            if (customRequests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--elegant-gray);">No custom design requests found</td></tr>';
+            }
+        }
+
+        // View custom request details
+        function viewCustomRequest(index) {
+            const request = customRequests[index];
+            if (request) {
+                alert(`Custom Design Request:\n\nName: ${request.firstName} ${request.lastName}\nEmail: ${request.email}\nPhone: ${request.phone}\nJewelry Type: ${request.jewelryType}\nBudget: ${request.budgetRange}\nTimeline: ${request.timeline}\nMetals: ${request.metals?.join(', ') || 'Not specified'}\n\nInspiration:\n${request.inspiration}\n\nSignificance:\n${request.significance}`);
+            }
+        }
+
+        // Delete custom request
+        function deleteCustomRequest(index) {
+            if (confirm('Are you sure you want to delete this custom design request?')) {
+                customRequests.splice(index, 1);
+                localStorage.setItem('hetimpex_custom_requests', JSON.stringify(customRequests));
+                loadCustomRequests();
+            }
+        }
+
+        // Initialize demo data if empty
+        function initializeDemoData() {
+            if (products.length === 0) {
+                // Add some demo products
+                const demoProducts = [
+                    {
+                        id: 1,
+                        name: "Classic Solitaire Engagement Ring",
+                        category: "rings",
+                        shape: "round",
+                        carat: 1.5,
+                        color: "F",
+                        clarity: "VVS1",
+                        price: 15000,
+                        metal: "platinum",
+                        occasion: "engagement",
+                        image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=400&fit=crop&crop=center",
+                        recommended: true,
+                        isNew: false,
+                        specs: { cut: "Excellent", fluorescence: "None", polish: "Excellent", symmetry: "Excellent" },
+                        description: "A timeless classic featuring a brilliant round diamond in a platinum setting.",
+                        dateAdded: new Date().toISOString()
+                    }
+                ];
+                products = demoProducts;
+                localStorage.setItem('hetimpex_products', JSON.stringify(products));
+            }
+            
+            if (orders.length === 0) {
+                // Add some demo orders
+                const demoOrders = [
+                    {
+                        id: 'ORD001',
+                        customerName: 'John Doe',
+                        email: 'john@example.com',
+                        items: [{ name: 'Diamond Ring', price: 5000 }],
+                        total: 5000,
+                        paymentMethod: 'Cash on Delivery',
+                        status: 'pending',
+                        date: new Date().toISOString()
+                    }
+                ];
+                orders = demoOrders;
+                localStorage.setItem('hetimpex_orders', JSON.stringify(orders));
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDemoData();
+        });
+    </script>
+</body>
+</html>

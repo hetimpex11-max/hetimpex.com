@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Design - HET IMPEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --royal-purple: #6B46C1;
+            --deep-purple: #4C1D95;
+            --rose-gold: #E8B4B8;
+            --champagne-gold: #F7E6AD;
+            --cream-white: #FEF7E7;
+            --soft-lavender: #F3F0FF;
+            --midnight-navy: #1E1B4B;
+            --pure-white: #ffffff;
+            --elegant-gray: #6B7280;
+            --shadow-luxury: 0 25px 50px rgba(107, 70, 193, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream-white);
+            color: var(--midnight-navy);
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        .header-nav {
+            background: var(--midnight-navy);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--rose-gold), var(--champagne-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(232, 180, 184, 0.3);
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .logo-placeholder {
+            color: var(--midnight-navy);
+            font-weight: 900;
+            font-size: 1rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--rose-gold);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--cream-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--rose-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--rose-gold); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--rose-gold); }
+        .nav-links a.active::after { width: 100%; }
+
+        .back-btn {
+            background: var(--elegant-gray);
+            color: var(--cream-white);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(107, 107, 128, 0.3);
+        }
+
+        /* Hero Section */
+        .custom-hero {
+            background: linear-gradient(135deg, var(--royal-purple), var(--deep-purple));
+            padding: 120px 20px 80px;
+            text-align: center;
+            color: var(--cream-white);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--rose-gold), var(--champagne-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--rose-gold);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Process Section */
+        .process-section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--deep-purple);
+            margin-bottom: 60px;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--pure-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-luxury);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .process-step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 35px 70px rgba(107, 70, 193, 0.2);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--royal-purple), var(--rose-gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cream-white);
+            margin: 0 auto 20px;
+        }
+
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--deep-purple);
+            margin-bottom: 15px;
+        }
+
+        .step-description {
+            color: var(--elegant-gray);
+            line-height: 1.6;
+        }
+
+        /* Design Form Section */
+        .design-form-section {
+            background: var(--soft-lavender);
+            padding: 100px 20px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--pure-white);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-luxury);
+        }
+
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--deep-purple);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--deep-purple);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--soft-lavender);
+            border-radius: 10px;
+            background: var(--pure-white);
+            color: var(--midnight-navy);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--royal-purple);
+            outline: none;
+        }
+
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--royal-purple);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, var(--royal-purple), var(--deep-purple));
+            color: var(--cream-white);
+            padding: 18px 50px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(107, 70, 193, 0.3);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 100px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-luxury);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(107, 70, 193, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .gallery-info {
+            padding: 20px;
+            background: var(--pure-white);
+        }
+
+        .gallery-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--deep-purple);
+            margin-bottom: 10px;
+        }
+
+        .gallery-description {
+            color: var(--elegant-gray);
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--midnight-navy);
+            padding: 60px 20px 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--rose-gold), var(--champagne-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .footer-logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .footer-logo-placeholder {
+            color: var(--midnight-navy);
+            font-weight: 900;
+            font-size: 1rem;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--rose-gold);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--champagne-gold);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--rose-gold);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <nav class="header-nav">
+        <div class="nav-container">
+            <div class="logo-section">
+                <div class="logo-image">
+                    <img src="image/f7325478-04f8-481b-b772-bc0bccc4874c.webp" alt="HET IMPEX Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="logo-placeholder" style="display: none;">HI</div>
+                </div>
+                <a href="het4.html" class="logo">HET IMPEX</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="collection.html">Collections</a></li>
+                <li><a href="seyuri-custom-design.html" class="active">Custom Design</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="het4.html" class="back-btn">← Back to Home</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="custom-hero">
+        <h1 class="hero-title">Custom Design</h1>
+        <p class="hero-subtitle">Create something uniquely yours. Our master craftsmen will bring your vision to life with exceptional attention to detail and artistry.</p>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <h2 class="section-title">Our Design Process</h2>
+        <div class="process-grid">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3 class="step-title">Consultation</h3>
+                <p class="step-description">We begin with a detailed consultation to understand your vision, preferences, and budget. Our design experts will guide you through every option.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3 class="step-title">Design & CAD</h3>
+                <p class="step-description">Our designers create detailed 3D renderings and CAD models, allowing you to visualize your piece before it's crafted.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3 class="step-title">Diamond Selection</h3>
+                <p class="step-description">Choose from our curated selection of certified diamonds, each hand-selected for exceptional quality and brilliance.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3 class="step-title">Craftsmanship</h3>
+                <p class="step-description">Our master jewelers bring your design to life using traditional techniques combined with modern precision.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <h3 class="step-title">Quality Check</h3>
+                <p class="step-description">Each piece undergoes rigorous quality inspection to ensure it meets our exceptional standards before delivery.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">6</div>
+                <h3 class="step-title">Delivery</h3>
+                <p class="step-description">Your custom piece is beautifully packaged and delivered with certification and lifetime warranty.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Form Section -->
+    <section class="design-form-section">
+        <div class="form-container">
+            <h2 class="form-title">Start Your Custom Design</h2>
+            <form id="customDesignForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name *</label>
+                        <input type="text" class="form-input" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name *</label>
+                        <input type="text" class="form-input" id="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-input" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone *</label>
+                        <input type="tel" class="form-input" id="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Type of Jewelry *</label>
+                    <select class="form-select" id="jewelryType" required>
+                        <option value="">Select Type</option>
+                        <option value="engagement-ring">Engagement Ring</option>
+                        <option value="wedding-band">Wedding Band</option>
+                        <option value="earrings">Earrings</option>
+                        <option value="necklace">Necklace</option>
+                        <option value="bracelet">Bracelet</option>
+                        <option value="pendant">Pendant</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Budget Range</label>
+                        <select class="form-select" id="budgetRange">
+                            <option value="">Select Budget</option>
+                            <option value="5k-10k">$5,000 - $10,000</option>
+                            <option value="10k-20k">$10,000 - $20,000</option>
+                            <option value="20k-50k">$20,000 - $50,000</option>
+                            <option value="50k-100k">$50,000 - $100,000</option>
+                            <option value="100k+">$100,000+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Timeline</label>
+                        <select class="form-select" id="timeline">
+                            <option value="">Select Timeline</option>
+                            <option value="no-rush">No Rush</option>
+                            <option value="3-months">Within 3 Months</option>
+                            <option value="6-weeks">Within 6 Weeks</option>
+                            <option value="4-weeks">Within 4 Weeks</option>
+                            <option value="rush">Rush Order (2 weeks)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Metal Preference</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="platinum" name="metal" value="platinum">
+                            <label for="platinum">Platinum</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="white-gold" name="metal" value="white-gold">
+                            <label for="white-gold">White Gold</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="yellow-gold" name="metal" value="yellow-gold">
+                            <label for="yellow-gold">Yellow Gold</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="rose-gold" name="metal" value="rose-gold">
+                            <label for="rose-gold">Rose Gold</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Design Inspiration</label>
+                    <textarea class="form-textarea" id="inspiration" placeholder="Describe your vision, inspiration, or any specific requirements..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Special Occasions or Significance</label>
+                    <textarea class="form-textarea" id="significance" placeholder="Tell us about the occasion or meaning behind this piece..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Design Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <h2 class="section-title">Custom Design Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=300&fit=crop&crop=center" alt="Custom Engagement Ring">
+                <div class="gallery-info">
+                    <h4 class="gallery-title">Vintage-Inspired Engagement Ring</h4>
+                    <p class="gallery-description">Art Deco inspired design with 2.5ct center stone and intricate milgrain details</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&h=300&fit=crop&crop=center" alt="Custom Earrings">
+                <div class="gallery-info">
+                    <h4 class="gallery-title">Diamond Drop Earrings</h4>
+                    <p class="gallery-description">Cascading design featuring graduated diamonds in rose gold setting</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop&crop=center" alt="Custom Necklace">
+                <div class="gallery-info">
+                    <h4 class="gallery-title">Statement Diamond Necklace</h4>
+                    <p class="gallery-description">Bold contemporary design with geometric diamond arrangement</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&h=300&fit=crop&crop=center" alt="Custom Bracelet">
+                <div class="gallery-info">
+                    <h4 class="gallery-title">Multi-Row Tennis Bracelet</h4>
+                    <p class="gallery-description">Three-row design with perfectly matched diamonds and hidden clasp</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1588630051790-b54dde4b2029?w=400&h=300&fit=crop&crop=center" alt="Custom Wedding Set">
+                <div class="gallery-info">
+                    <h4 class="gallery-title">Matching Wedding Set</h4>
+                    <p class="gallery-description">Perfectly coordinated engagement ring and wedding band in platinum</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=400&h=300&fit=crop&crop=center" alt="Custom Ring">
+                <div class="gallery-info">
+                    <h4 class="gallery-title">Cocktail Ring</h4>
+                    <p class="gallery-description">Bold statement piece featuring unique diamond arrangement and sculptural setting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo-section">
+                <div class="footer-logo-image">
+                    <img src="image/f7325478-04f8-481b-b772-bc0bccc4874c.webp" alt="HET IMPEX Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="footer-logo-placeholder" style="display: none;">HI</div>
+                </div>
+                <div class="footer-logo">HET IMPEX</div>
+            </div>
+            <div class="footer-links">
+                <a href="collections.html" class="footer-link">Collections</a>
+                <a href="seyuri-custom-design.html" class="footer-link">Custom Design</a>
+                <a href="education.html" class="footer-link">Education</a>
+                <a href="contact.html" class="footer-link">Contact</a>
+            </div>
+            <p style="color: #6B7280; margin-top: 30px;">© 2025 HET IMPEX. Crafting brilliance since 1985.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handler
+        document.getElementById('customDesignForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                jewelryType: document.getElementById('jewelryType').value,
+                budgetRange: document.getElementById('budgetRange').value,
+                timeline: document.getElementById('timeline').value,
+                metals: Array.from(document.querySelectorAll('input[name="metal"]:checked')).map(cb => cb.value),
+                inspiration: document.getElementById('inspiration').value,
+                significance: document.getElementById('significance').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Store in localStorage for demo
+            let customRequests = JSON.parse(localStorage.getItem('hetimpex_custom_requests') || '[]');
+            customRequests.push(formData);
+            localStorage.setItem('hetimpex_custom_requests', JSON.stringify(customRequests));
+            
+            // Simulate form submission
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Thank you for your custom design request! Our design team will contact you within 24 hours to schedule a consultation.');
+                this.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+            
+            console.log('Custom design request:', formData);
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Set initial state and observe elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.process-step, .gallery-item');
+            animatedElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(element);
+            });
+        });
+
+        // Handle image loading errors
+        document.addEventListener('error', (e) => {
+            if (e.target.tagName === 'IMG') {
+                e.target.style.display = 'none';
+                e.target.parentElement.innerHTML += '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--elegant-gray); font-size: 3rem;">💎</div>';
+            }
+        }, true);
+    </script>
+</body>
+</html>
